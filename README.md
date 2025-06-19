@@ -43,8 +43,4 @@ cd it-cli-toolkit
 pip install psutil
 Run the tool
 python main.py --help
-You can run specific tools like:
-python main.py info os
-python main.py info memory
-python main.py service check
-python main.py service restart
+
