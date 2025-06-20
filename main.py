@@ -46,7 +46,7 @@ def main():
 check_connection()
 check_status(service_name="ssh")
 restart_network(service_name="NetworkManager")
-get
+
 
 if __name__ == "__main__":
     main()
