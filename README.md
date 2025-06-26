@@ -1,4 +1,4 @@
-# 🛠️ IT Support CLI Automation Toolkit (Python)
+# 🛠️ IT Support CLI Toolkit (Python)
 
 This is a command-line tool built in Python for performing common IT support and system administration tasks. It’s designed to be beginner-friendly, modular, and easily extendable.
 
