@@ -18,8 +18,6 @@ This is a command-line tool built in Python for performing common IT support and
 
 ### ✅ Coming Soon
 - User account creation and deletion
-- Backup and archive logs or config files
-- Log output to a `.log` file
 
 ---
 
