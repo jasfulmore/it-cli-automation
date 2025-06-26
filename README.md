@@ -16,9 +16,6 @@ This is a command-line tool built in Python for performing common IT support and
 - Restart any system service (e.g., NetworkManager, SSH)
 - Check network connectivity (e.g., DNS ping)
 
-### ✅ Coming Soon
-- User account creation and deletion
-
 ---
 
 ## 💻 Technologies Used
