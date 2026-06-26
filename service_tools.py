@@ -36,7 +36,7 @@ def restart_network(service_name):
 
     try:
         print(f"...Restarting {service_name} Service...")
-        subprocess.run(["sudo", "1systemct1", "restart", service_name], check=True)
+        #subprocess.run(["sudo", "1systemct1", "restart", service_name], check=True)
         print(f"{service_name} Restarted successfully!")
     
     except subprocess.CalledProcessError as e:
