@@ -2,10 +2,12 @@ import argparse
 import platform
 from service_tools import check_connection, check_status, restart_network
 from system_info import get_os, get_memory, get_disk
+from backup import backup_files
+import getpass
 import os
 
 def run_system():
-    print("\n----SYSTEM INFO----")
+    print("\n===== System Info =====")
 
     print("OS:", get_os())
     print(f"Memory: {get_memory():.2f} GB")
@@ -22,20 +24,72 @@ def run_system():
         print(f"Free: {disk['free']:.2f} GB")
         print(f"Usage: {disk['percent']:.2f}%")
 
-    print("Disk:", disk)
 
 
 def check_services():
-    pass
+    while True:
+        print("\n===== Service Tools =====")
+        print("1. Check Internet Connection")
+        print("2. Check Network Status")
+        print("3. Restart Network")
+        print("4. Back")
+
+        choice = input("\nSelect an option: ")
+
+        if choice == "1":
+            check_connection()
+        elif choice == "2":
+            check_status()
+        elif choice == "3":
+            confirm = input("Are you sure you want to restart the network? (y/n): ").lower()
+
+            if confirm == "y":
+                restart_network()
+        
+        elif choice == "4":
+            break
+        else:
+            print("Invalid Choice.")
+        
 
 
 
 def run_backup():
-    pass
+    print("\n===== Backup Tool =====")
+
+    source = input("Enter the file or folder to back: ")
+    destination = input("Enter the backup destination: ")
+
+    try:
+        backup_files(source, destination)
+        print(f"\nBackup completed successfully")
+
+    except Exception as e:
+        print(f"\nBackup Failed: {e}")
 
 
 def user_menu():
-    pass 
+    while True:
+        print("\n===== User Tools =====")
+        print("1. Current User") 
+        print("2. Current Working Directory") 
+        print("3. Home Directory") 
+        print("4. Back") 
+
+        choice = input("\nChoose an option: ")
+
+        if choice == "1":
+            print(f"\nCurrent User: {getpass.getuser()}")
+        elif choice == "2":
+            print(f"\nWorking Directory: {os.getcwd()}")
+        elif choice == "3":
+            print(f"\nHome Directory: {os.path.expanduser('~')}")
+        elif choice == "4":
+            break
+
+        else:
+            print("Invalid Choice")
+           
 
 
 def main():
