@@ -1,116 +1,87 @@
-# 🧰 IT CLI Automation Toolkit
+# IT CLI Automation Toolkit
 
-A Python-based command-line automation toolkit designed to simplify system diagnostics, service monitoring, and basic IT operations through a unified CLI interface.
+A Python-based command-line application that automates common IT administration tasks such as retrieving system information, managing services, backing up files, and displaying user information.
 
-This project focuses on **automation engineering, system tooling, and CLI architecture design**.
+## Features
 
----
+- System information
+- JSON output
+- Service utilities
+- Backup utility
+- User information
+- Logging
+- Configurable application settings
 
-## 🚀 Features
+## Technologies
 
-### 💻 System Diagnostics
-- Operating system detection
-- Memory usage reporting (GB)
-- Disk usage analysis (total, used, free, percent)
-- Cross-platform support (Windows / Linux / macOS)
-
-### 🌐 Network Utilities
-- Network connectivity checks *(in progress)*
-- Network status validation tools *(planned)*
-
-### 🔧 Service Tools
-- Service status checking *(in progress)*
-- Network/service restart utility *(basic implementation)*
-
-### 📦 CLI Interface
-- Built with Python `argparse`
-- Subcommand-based structure:
-  - `system`
-  - `services`
-  - `backup` *(planned)*
-  - `user` *(planned)*
-- Modular architecture for scalability
-
----
-
-## 🧠 Roadmap
-
-### 🗂 Backup Automation
-- File/folder backup system
-- Scheduled backups (cron / task scheduler support)
-- Compression (zip/tar)
-- Cloud integration (AWS S3 / Google Drive API)
-
-### 👤 User Management Tools
-- Local user account inspection
-- Permission/role checking
-- Admin utilities
-
-### 📊 Logging & Monitoring
-- System logs
-- Error tracking
-- Export logs to file
-
-### 🌐 Integration Layer
-- REST API wrapper for system commands
-- Webhook support
-- JSON output mode for automation tools
-
-### ⚙️ CLI Improvements
-- Colored terminal output
-- Interactive shell mode (`toolkit shell`)
-- Config file support (`config.json`)
-- Global installable CLI (`toolkit` command)
-
----
-
-## 🛠 Tech Stack
-
-- Python 3.x
+- Python 3
 - argparse
+- logging
+- pathlib
 - psutil
-- platform
-- os
-- subprocess
 
----
+## Installation
 
-## 📂 Project Structure
+```bash
+git clone https://github.com/YOUR_USERNAME/it-cli-automation.git
+cd it-cli-automation
+pip install -r requirements.txt
+```
 
-it-cli-automation/
-│── main.py
-│── system_info.py
-│── service_tools.py
-│── README.md
-
----
-
-## ▶️ Usage
-
-### System Commands
+## Usage
 
 ```bash
 python main.py system info
-python main.py system disk
 ```
-
-### Service Commands
 
 ```bash
-python main.py services status
-python main.py services restart
+python main.py system json
 ```
 
+```bash
+python main.py services check
+```
 
-### Example Output
-Running on: Windows
+```bash
+python main.py backup source destination
+```
 
---- SYSTEM INFO ---
-OS: Windows 11
-Memory: 12.34 GB
+```bash
+python main.py user info
+```
 
---- DISK INFO ---
-Total: 512 GB
-Used: 300 GB
-Free: 212 GB
-Usage: 58.6%
+## Example Output
+
+```text
+====================================
+IT CLI Automation Toolkit
+====================================
+
+Version : 1.0.0
+Platform: macOS
+```
+
+## Project Structure
+
+```text
+it-cli-automation/
+├── cli/
+├── core/
+├── logs/
+├── tests/
+├── config.py
+├── main.py
+└── requirements.txt
+```
+
+## Future Improvements
+
+- Network diagnostics
+- Process management
+- GitHub Actions
+- Pytest coverage
+- CSV export
+
+## Author
+
+Jasmine Fulmore
