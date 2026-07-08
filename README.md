@@ -1,4 +1,4 @@
-# IT CLI Automation Toolkit
+# IT Operations Toolkit
 
 A Python-based command-line application that automates common IT administration tasks such as retrieving system information, managing services, backing up files, and displaying user information.
 
