@@ -1,123 +1,156 @@
 import argparse
 import platform
-from service_tools import check_connection, check_status, restart_network
-from system_info import get_os, get_memory, get_disk
-from backup import backup_files
-import getpass
-import os
+from core.formatter import print_header
 
-def run_system():
-    print("\n===== System Info =====")
+from cli.system_commands import run_system
+from cli.service_commands import run_services
+from cli.backup_commands import run_backup
+from cli.user_commands import run_user
+from core.logger import logger
+import sys
 
-    print("OS:", get_os())
-    print(f"Memory: {get_memory():.2f} GB")
 
-    if os.name == "nt":
-        disk = get_disk("C:")
-    else:
-        disk = get_disk("/")
+"""
+IT CLI Automation Toolkit
 
-    if disk:
-        print("\nDisk Info:")
-        print(f"Total: {disk['total']:.2f} GB")
-        print(f"Used: {disk['used']:.2f} GB")
-        print(f"Free: {disk['free']:.2f} GB")
-        print(f"Usage: {disk['percent']:.2f}%")
+A command-line utility for retrieving system information,
+performing network diagnostics, and automating common IT tasks.
+"""
 
 
 
-def check_services():
-    while True:
-        print("\n===== Service Tools =====")
-        print("1. Check Internet Connection")
-        print("2. Check Network Status")
-        print("3. Restart Network")
-        print("4. Back")
+def build_parser():
+    """Create and configure the command-line argument parser."""
+    parser = argparse.ArgumentParser(
+        prog="it-cli",
+        description="IT Automation Toolkit"
+    )
 
-        choice = input("\nSelect an option: ")
-
-        if choice == "1":
-            check_connection()
-        elif choice == "2":
-            check_status()
-        elif choice == "3":
-            confirm = input("Are you sure you want to restart the network? (y/n): ").lower()
-
-            if confirm == "y":
-                restart_network()
-        
-        elif choice == "4":
-            break
-        else:
-            print("Invalid Choice.")
-        
+    subparsers = parser.add_subparsers(
+        dest="command",
+        required=True
+    )
 
 
+   # system commands
+    system_parser = subparsers.add_parser(
+        "system",
+        help="System information"
+    )
 
-def run_backup():
-    print("\n===== Backup Tool =====")
+    system_sub = system_parser.add_subparsers(
+        dest="system_cmd",
+        required=True
+    )
 
-    source = input("Enter the file or folder to back: ")
-    destination = input("Enter the backup destination: ")
+    system_sub.add_parser(
+        "info",
+        help="Display system information"
+    )
 
-    try:
-        backup_files(source, destination)
-        print(f"\nBackup completed successfully")
-
-    except Exception as e:
-        print(f"\nBackup Failed: {e}")
+    system_sub.add_parser(
+        "json",
+        help="Display system information as JSON"
+    )
 
 
-def user_menu():
-    while True:
-        print("\n===== User Tools =====")
-        print("1. Current User") 
-        print("2. Current Working Directory") 
-        print("3. Home Directory") 
-        print("4. Back") 
+    # service commands
+    services_parser = subparsers.add_parser(
+        "services",
+        help="Network and service utilities"
+    )
 
-        choice = input("\nChoose an option: ")
+    services_sub = services_parser.add_subparsers(
+        dest="services_cmd",
+        required=True
+    )
 
-        if choice == "1":
-            print(f"\nCurrent User: {getpass.getuser()}")
-        elif choice == "2":
-            print(f"\nWorking Directory: {os.getcwd()}")
-        elif choice == "3":
-            print(f"\nHome Directory: {os.path.expanduser('~')}")
-        elif choice == "4":
-            break
+    services_sub.add_parser(
+        "check",
+        help="Check internet connection"
+    )
 
-        else:
-            print("Invalid Choice")
-           
+    services_sub.add_parser(
+        "status",
+        help="Display network status"
+    )
+
+    services_sub.add_parser(
+        "restart",
+        help="Restart network service"
+    )
+
+
+    # backup
+    backup_parser = subparsers.add_parser(
+        "backup",
+        help="Backup files or folders"
+    )
+
+    backup_parser.add_argument(
+        "source",
+        help="File or folder to back up"
+    )
+
+    backup_parser.add_argument(
+        "destination",
+        help="Backup destination"
+    )
+
+
+    # user commands
+    user_parser = subparsers.add_parser(
+        "user",
+        help="User information"
+    )
+
+    user_sub = user_parser.add_subparsers(
+        dest="user_cmd",
+        required=True
+    )
+
+    user_sub.add_parser(
+        "info",
+        help="Display current user information"
+    )
+
+    return parser
 
 
 def main():
-    OS = platform.system()
-    print(f"Running on: {OS}")
+    """Run the CLI application."""
+    print_header()
 
-    parser = argparse.ArgumentParser(description="IT Automation Toolkit")
-
-    subparsers = parser.add_subparsers(dest="command")
-
-    system_parser = subparsers.add_parser("system")
-    services_parser = subparsers.add_parser("services")
-    backup_parser = subparsers.add_parser("backup")
-    user_parser = subparsers.add_parser("user")
-
+    parser = build_parser()
     args = parser.parse_args()
+    logger.info("Command Executed: %s", " ".join(sys.argv))
 
     if args.command == "system":
-        run_system()
+        logger.info("Retrieving system information")
+        run_system(args.system_cmd)
+
     elif args.command == "services":
-        check_services()
+        logger.info("Running services")
+        run_services(args.services_cmd)
+
     elif args.command == "backup":
-        run_backup()
+        try:
+            logger.info(
+                "Starting backup from %s to %s",
+                args.source,
+                args.destination
+            )
+
+            run_backup(args.source, args.destination)
+
+            logger.info("Backup completed successfully")
+
+        except Exception:
+            logger.exception("Backup failed")
+
     elif args.command == "user":
-        user_menu()
-    else:
-        parser.print_help()
-        
+        run_user(args.user_cmd)
+
 
 if __name__ == "__main__":
     main()
