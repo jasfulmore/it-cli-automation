@@ -1,23 +1,31 @@
-import shutil
-import os
 import datetime
+import os
+import shutil
 
 
 def backup_files(source_dir, backup_dir):
-    # Get the current date and time for naming the backup folder
-    current_time = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    backup_folder = os.path.join(backup_dir, f"backup_{current_time}")
-    
-    try:
-        # Create the backup directory
-        os.makedirs(backup_folder)
-        
-        # Copy all files and subdirectories from source to backup folder
-        shutil.copytree(source_dir, backup_folder)
-        
-        print(f"Backup successful! Files have been copied to {backup_folder}")
-    
-    except Exception as e:
-        print(f"Error: {e}")
+    """
+    Copy an entire directory into a timestamped backup folder.
 
-        
+    Args:
+        source_dir (str): Directory to back up.
+        backup_dir (str): Destination for backups.
+
+    Returns:
+        str: Path to the created backup folder.
+
+    Raises:
+        FileNotFoundError: If the source directory does not exist.
+        OSError: If the backup cannot be created.
+    """
+
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+    backup_folder = os.path.join(
+        backup_dir,
+        f"backup_{timestamp}"
+    )
+
+    shutil.copytree(source_dir, backup_folder)
+
+    return backup_folder

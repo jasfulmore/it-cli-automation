@@ -5,7 +5,9 @@ def run_backup(source, destination):
     # handles running file backups
 
     try:
-        backup_files(source. destination)
-        print("Backup Completed Successfully")
+        location = backup_files(source, destination)
+        print(f"Backup created successfully!")
+        print(location)
+
     except Exception as e:
-        print(f"Backup Failed: {e}")
+        print(f"Backup failed: {e}")
